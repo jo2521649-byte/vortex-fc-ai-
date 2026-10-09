@@ -2,240 +2,378 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#09090d">
 <title>VORTEX FC AI | Football Intelligence</title>
+
 <style>
-:root{--bg:#09090d;--panel:#15151c;--red:#ff303b;--text:#f5f5f7;--muted:#a5a5b2;--line:#30303b}
+:root {
+  --bg:#09090d;
+  --panel:#15151c;
+  --panel2:#202027;
+  --red:#ff303d;
+  --text:#f7f7fa;
+  --muted:#a5a5b1;
+  --line:#2c2c36;
+  --green:#39d98a;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-header{padding:23px 18px;background:#111116;border-bottom:2px solid var(--red)}
-.logo{font-size:27px;font-weight:900;letter-spacing:1px}
-.logo span{color:var(--red)}
-.tag{color:var(--muted);font-size:12px;letter-spacing:1px;margin-top:8px}
-nav{display:flex;gap:9px;padding:12px 15px;overflow-x:auto;background:#101015;border-bottom:1px solid var(--line)}
-nav a{color:white;text-decoration:none;background:#202027;padding:10px 13px;border-radius:8px;white-space:nowrap;font-size:13px}
-main{max-width:760px;margin:auto;padding:17px}
-.hero{padding:10px 0 16px}
-.hero h1{font-size:27px;margin:12px 0}
-.hero p,.muted{color:var(--muted);line-height:1.5}
-.eyebrow{color:var(--red);font-weight:bold;font-size:12px;letter-spacing:2px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px;margin:15px 0}
-.card h2{font-size:19px;margin:0 0 14px}
-.card h2 span{color:var(--red)}
-input,select,textarea{display:block;width:100%;padding:13px;margin:9px 0;background:#09090e;color:white;border:1px solid #41414c;border-radius:9px;font-size:15px}
-button{width:100%;padding:14px;margin:7px 0;background:var(--red);color:white;border:0;border-radius:9px;font-size:15px;font-weight:bold;cursor:pointer}
-button.secondary{background:#292932;border:1px solid #454550}
-button:disabled{opacity:.55}
-.result{background:#0c0c11;border-radius:8px;padding:12px;margin-top:10px;color:#ddd;font-size:14px;line-height:1.55;overflow-wrap:anywhere;white-space:pre-wrap}
-.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
-.dot{width:9px;height:9px;background:#777;border-radius:50%;display:inline-block}
-.dot.ok{background:#35d07f}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;line-height:1.5
+}
+header{
+  padding:25px 18px;background:#111116;
+  border-bottom:3px solid var(--red)
+}
+.brand{font-size:34px;font-weight:900;margin:0}
+.brand span,h1 span{color:var(--red)}
+.tagline{font-size:12px;letter-spacing:1.5px;color:var(--muted)}
+nav{
+  display:flex;gap:8px;overflow-x:auto;padding:12px 15px;
+  background:#101015;border-bottom:1px solid var(--line)
+}
+nav a{
+  white-space:nowrap;color:var(--text);text-decoration:none;
+  background:var(--panel2);padding:9px 12px;border-radius:9px;
+  font-size:14px
+}
+main{max-width:900px;margin:auto;padding:22px 15px 40px}
+.eyebrow{font-size:12px;letter-spacing:2px;color:var(--red);font-weight:bold}
+h1{font-size:clamp(29px,7vw,43px);line-height:1.2;margin:12px 0}
+.intro,.muted{color:var(--muted)}
+.intro{font-size:17px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:22px 0}
+.stat,.card{background:var(--panel);border:1px solid var(--line);border-radius:15px}
+.stat{padding:14px;background:var(--panel2)}
+.stat strong{display:block;font-size:23px;color:var(--red)}
+.card{padding:18px;margin:18px 0}
+.card h2{font-size:21px;color:var(--red);margin:0 0 10px}
+input{
+  width:100%;padding:13px;margin:7px 0;background:#09090d;
+  color:white;border:1px solid #383842;border-radius:10px;font-size:16px
+}
+input:focus{outline:1px solid var(--red)}
+button{
+  width:100%;padding:14px;margin-top:9px;background:var(--red);
+  color:white;border:0;border-radius:10px;font-weight:bold;
+  font-size:16px;cursor:pointer
+}
+button:disabled{opacity:.6}
+.status{display:flex;align-items:center;gap:9px;color:var(--muted)}
+.dot{width:10px;height:10px;border-radius:50%;background:#f4bd50}
+.dot.ok{background:var(--green)}
 .dot.bad{background:var(--red)}
-.competition{padding:11px 0;border-bottom:1px solid var(--line)}
-.competition:last-child{border:0}
+.notice{
+  margin-top:12px;padding:13px;background:#0b0b10;border-radius:10px;
+  overflow-wrap:anywhere
+}
+.competition-list{display:grid;grid-template-columns:1fr;gap:9px;margin-top:13px}
+.competition{
+  display:flex;align-items:center;gap:12px;padding:12px;
+  background:var(--panel2);border:1px solid var(--line);border-radius:10px
+}
+.competition img{width:38px;height:38px;object-fit:contain}
 .competition strong{display:block}
 .competition small{color:var(--muted)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{background:#202027;padding:12px;border-radius:9px}
-.stat b{font-size:19px;color:var(--red);display:block;margin-bottom:5px}
-footer{text-align:center;color:#777;font-size:12px;padding:25px 15px}
-@media(max-width:420px){.grid{grid-template-columns:1fr}.logo{font-size:24px}}
+.two{display:grid;grid-template-columns:1fr;gap:12px}
+footer{
+  text-align:center;color:var(--muted);font-size:12px;
+  padding:24px 12px;border-top:1px solid var(--line)
+}
+@media(min-width:620px){
+  main{padding-top:32px}
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .two,.competition-list{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
+
 <body>
+
 <header>
-  <div class="logo">VORTEX <span>FC AI</span></div>
-  <div class="tag">FOOTBALL INTELLIGENCE & AI ANALYSIS</div>
+  <p class="brand">VORTEX <span>FC AI</span></p>
+  <div class="tagline">FOOTBALL INTELLIGENCE &amp; AI ANALYSIS</div>
 </header>
 
 <nav>
   <a href="#connection">Connection</a>
   <a href="#competitions">Competitions</a>
   <a href="#research">Team Research</a>
-  <a href="#compare">Compare</a>
-  <a href="#analysis">Match Analyst</a>
+  <a href="#compare">Compare Teams</a>
+  <a href="#about">About</a>
 </nav>
 
 <main>
-  <section class="hero">
-    <div class="eyebrow">YOUR FOOTBALL COMMAND CENTRE</div>
-    <h1>Understand the game.<br><span style="color:var(--red)">Study the numbers.</span></h1>
-    <p>Explore available competitions and build your match analysis using football data.</p>
-    <div class="grid">
-      <div class="stat"><b>01</b>Competition data</div>
-      <div class="stat"><b>02</b>Team research</div>
-      <div class="stat"><b>03</b>Match comparison</div>
-      <div class="stat"><b>04</b>Evidence-led analysis</div>
+
+  <div class="eyebrow">YOUR FOOTBALL COMMAND CENTRE</div>
+  <h1>Understand the game.<br><span>Study the numbers.</span></h1>
+  <p class="intro">
+    Explore football competitions and prepare evidence-based match analysis.
+    Football predictions are uncertain, so always consider the risks.
+  </p>
+
+  <div class="stats">
+    <div class="stat">
+      <strong id="statCompetitions">—</strong>
+      <span>Competitions loaded</span>
+    </div>
+    <div class="stat">
+      <strong>API</strong>
+      <span>Football data connection</span>
+    </div>
+    <div class="stat">
+      <strong>LIVE</strong>
+      <span>Backend check</span>
+    </div>
+    <div class="stat">
+      <strong>FC AI</strong>
+      <span>Analysis workspace</span>
+    </div>
+  </div>
+
+  <section class="card" id="connection">
+    <h2>⚡ System Connection</h2>
+    <div class="status">
+      <span class="dot" id="connectionDot"></span>
+      <span id="connectionStatus">Checking connection...</span>
+    </div>
+    <button id="testButton">Test Football Data Connection</button>
+    <div class="notice" id="connectionMessage" role="status">
+      Connecting to your Render backend...
     </div>
   </section>
 
-  <section class="card" id="connection">
-    <h2>⚡ <span>System Connection</span></h2>
-    <div class="status"><i class="dot" id="dot"></i><span id="status">Not tested yet</span></div>
-    <button onclick="testConnection()">Test Football Data Connection</button>
-    <div class="result" id="connectionResult">Tap the button to check your backend.</div>
-  </section>
-
   <section class="card" id="competitions">
-    <h2>🏆 <span>Available Competitions</span></h2>
-    <p class="muted">Load the competitions your football-data.org API plan makes available.</p>
-    <input id="competitionSearch" placeholder="Search competitions..." oninput="filterCompetitions()">
-    <button onclick="loadCompetitions()">Load Competitions</button>
-    <div class="result" id="competitionResult">Competition list has not been loaded.</div>
+    <h2>🏆 Football Competitions</h2>
+    <p class="muted">
+      View and search the competitions available through your football data API plan.
+    </p>
+    <input id="competitionSearch" type="search"
+      placeholder="Search league, country or code..."
+      aria-label="Search competitions">
+    <button id="loadButton">Load Competitions</button>
+    <div class="notice" id="competitionMessage" role="status">
+      Preparing to load competitions...
+    </div>
+    <div class="competition-list" id="competitionList"></div>
   </section>
 
-  <section class="card" id="research">
-    <h2>🔎 <span>Team Research</span></h2>
-    <p class="muted">Enter a team name to prepare a research request. Detailed team statistics will be added when the relevant data endpoint is connected.</p>
-    <input id="teamName" placeholder="e.g. Arsenal">
-    <button onclick="researchTeam()">Research Team</button>
-    <div class="result" id="teamResult">Your research will appear here.</div>
+  <div class="two">
+
+    <section class="card" id="research">
+      <h2>🔎 Team Research</h2>
+      <p class="muted">
+        Enter a team name to prepare a research request.
+        Real team statistics are not connected to this feature yet.
+      </p>
+      <input id="teamName" placeholder="Example: Arsenal" maxlength="80">
+      <button id="researchButton">Prepare Research</button>
+      <div class="notice" id="researchMessage">
+        Enter a team name to begin.
+      </div>
+    </section>
+
+    <section class="card" id="compare">
+      <h2>⚔️ Compare Teams</h2>
+      <p class="muted">
+        Prepare a comparison between two teams.
+        Live statistical comparisons are not connected yet.
+      </p>
+      <input id="teamOne" placeholder="First team" maxlength="80">
+      <input id="teamTwo" placeholder="Second team" maxlength="80">
+      <button id="compareButton">Prepare Comparison</button>
+      <div class="notice" id="compareMessage">
+        Enter both teams to begin.
+      </div>
+    </section>
+
+  </div>
+
+  <section class="card" id="about">
+    <h2>📌 About VORTEX FC AI</h2>
+    <p class="muted">
+      VORTEX FC AI is a football intelligence workspace.
+      The competitions section connects to your existing backend.
+      Fixtures, results, team statistics, head-to-head records,
+      league tables and AI analysis still need to be connected.
+    </p>
+    <p class="muted">
+      Predictions are estimates, not guarantees. Never risk money
+      you cannot afford to lose.
+    </p>
   </section>
 
-  <section class="card" id="compare">
-    <h2>⚔️ <span>Compare Teams</span></h2>
-    <input id="teamOne" placeholder="First team">
-    <input id="teamTwo" placeholder="Second team">
-    <button onclick="compareTeams()">Prepare Comparison</button>
-    <div class="result" id="compareResult">Enter two teams to prepare a comparison.</div>
-  </section>
-
-  <section class="card" id="analysis">
-    <h2>📊 <span>Match Analyst</span></h2>
-    <input id="homeTeam" placeholder="Home team">
-    <input id="awayTeam" placeholder="Away team">
-    <select id="matchType">
-      <option value="general">General match review</option>
-      <option value="form">Recent form</option>
-      <option value="goals">Goal trends</option>
-      <option value="h2h">Head-to-head</option>
-    </select>
-    <button onclick="prepareAnalysis()">Prepare Match Analysis</button>
-    <div class="result" id="analysisResult">Enter the teams to prepare your analysis checklist.</div>
-    <p class="muted">This version prepares research prompts; it does not yet calculate predictions from team statistics. No outcome is guaranteed.</p>
-  </section>
 </main>
 
 <footer>
-  VORTEX FC AI · Football Intelligence & AI Analysis<br>
-  Data availability depends on your provider and API plan.
+  VORTEX FC AI · Football Intelligence &amp; AI Analysis
 </footer>
 
 <script>
-let competitionData = [];
+"use strict";
 
-async function apiRequest(path) {
-  const response = await fetch(path);
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.message || data.error || "Request failed: " + response.status);
-  }
-  return data;
-}
+const API_BASE = window.location.origin;
+const $ = id => document.getElementById(id);
 
-async function testConnection() {
-  const button = document.querySelector("#connection button");
-  const box = document.getElementById("connectionResult");
-  const status = document.getElementById("status");
-  const dot = document.getElementById("dot");
+let competitions = [];
 
-  button.disabled = true;
-  status.textContent = "Testing connection...";
-  dot.className = "dot";
-  box.textContent = "Contacting your VORTEX FC AI server...";
-
-  try {
-    const data = await apiRequest("/api/competitions");
-    const list = data.competitions || [];
-    status.textContent = "Backend connected";
-    dot.className = "dot ok";
-    box.textContent = "Connection successful!\nCompetitions returned: " + list.length +
-      "\nYour server and football-data API are responding.";
-  } catch (error) {
-    status.textContent = "Connection failed";
-    dot.className = "dot bad";
-    box.textContent = "Could not load competitions.\n" + error.message +
-      "\nRefresh the page and try again. If it persists, check the Render service logs.";
-  } finally {
-    button.disabled = false;
-  }
+function setConnection(success, message) {
+  $("connectionDot").className = success ? "dot ok" : "dot bad";
+  $("connectionStatus").textContent = success
+    ? "Backend responded successfully"
+    : "Connection failed";
+  $("connectionMessage").textContent = message;
 }
 
 async function loadCompetitions() {
-  const box = document.getElementById("competitionResult");
-  box.textContent = "Loading competitions...";
+  const button = $("loadButton");
+  button.disabled = true;
+  button.textContent = "Loading...";
+
+  $("competitionMessage").textContent =
+    "Contacting your Render backend...";
 
   try {
-    const data = await apiRequest("/api/competitions");
-    competitionData = data.competitions || [];
-    filterCompetitions();
+    const response = await fetch(API_BASE + "/api/competitions", {
+      headers: { "Accept": "application/json" }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || data.message || "HTTP " + response.status
+      );
+    }
+
+    competitions = Array.isArray(data.competitions)
+      ? data.competitions
+      : [];
+
+    if (competitions.length === 0) {
+      throw new Error("No competitions were returned by the API.");
+    }
+
+    $("statCompetitions").textContent = competitions.length;
+
+    renderCompetitions();
+
+    $("competitionMessage").textContent =
+      "Loaded " + competitions.length +
+      " competitions successfully. Use search to filter them.";
+
+    setConnection(
+      true,
+      "Connected! Your backend returned " +
+      competitions.length + " competitions."
+    );
+
   } catch (error) {
-    box.textContent = "Could not load competitions: " + error.message;
+    $("competitionList").replaceChildren();
+    $("competitionMessage").textContent =
+      "Unable to load competitions: " + error.message;
+
+    setConnection(
+      false,
+      "Connection problem: " + error.message +
+      ". Check that your Render service is running."
+    );
+
+  } finally {
+    button.disabled = false;
+    button.textContent = "Load Competitions";
   }
 }
 
-function filterCompetitions() {
-  const box = document.getElementById("competitionResult");
-  const query = document.getElementById("competitionSearch").value.trim().toLowerCase();
-  const matches = competitionData.filter(c =>
-    (c.name || "").toLowerCase().includes(query) ||
-    (c.area?.name || "").toLowerCase().includes(query)
-  );
+function renderCompetitions() {
+  const query = $("competitionSearch").value.trim().toLowerCase();
+  const list = $("competitionList");
 
-  if (!competitionData.length) {
-    box.textContent = "Tap Load Competitions first.";
+  list.replaceChildren();
+
+  const filtered = competitions.filter(c => {
+    const values = [
+      c.name,
+      c.code,
+      c.type,
+      c.area && c.area.name
+    ];
+
+    return values.some(value =>
+      String(value || "").toLowerCase().includes(query)
+    );
+  });
+
+  if (!filtered.length) {
+    const message = document.createElement("div");
+    message.className = "notice";
+    message.textContent = "No matching competitions found.";
+    list.appendChild(message);
     return;
   }
 
-  if (!matches.length) {
-    box.textContent = "No matching competitions found.";
-    return;
-  }
-
-  box.innerHTML = "";
-  matches.forEach(c => {
+  filtered.forEach(c => {
     const item = document.createElement("div");
     item.className = "competition";
+
+    if (c.emblem) {
+      const image = document.createElement("img");
+      image.src = c.emblem;
+      image.alt = "";
+      image.loading = "lazy";
+      image.onerror = () => image.remove();
+      item.appendChild(image);
+    }
+
+    const details = document.createElement("div");
     const name = document.createElement("strong");
-    name.textContent = c.name || "Unnamed competition";
     const info = document.createElement("small");
-    info.textContent = (c.area?.name || "Area unavailable") +
-      (c.code ? " · " + c.code : "");
-    item.appendChild(name);
-    item.appendChild(info);
-    box.appendChild(item);
+
+    name.textContent = c.name || "Football competition";
+    info.textContent = [
+      c.area && c.area.name,
+      c.code,
+      c.type
+    ].filter(Boolean).join(" · ") || "Competition";
+
+    details.append(name, document.createElement("br"), info);
+    item.appendChild(details);
+    list.appendChild(item);
   });
 }
 
-function researchTeam() {
-  const name = document.getElementById("teamName").value.trim();
-  document.getElementById("teamResult").textContent = name
-    ? "Research request prepared for: " + name +
-      "\nNext data needed: team ID, recent results, goals scored/conceded and competition.\nLive team research is not connected yet."
-    : "Please enter a team name.";
-}
+$("loadButton").addEventListener("click", loadCompetitions);
+$("testButton").addEventListener("click", loadCompetitions);
+$("competitionSearch").addEventListener("input", renderCompetitions);
 
-function compareTeams() {
-  const one = document.getElementById("teamOne").value.trim();
-  const two = document.getElementById("teamTwo").value.trim();
-  document.getElementById("compareResult").textContent = one && two
-    ? "Comparison prepared: " + one + " vs " + two +
-      "\nTo compare accurately, we need real statistics for both teams.\nThe live team-comparison endpoint is not connected yet."
-    : "Enter both team names first.";
-}
+$("researchButton").addEventListener("click", () => {
+  const team = $("teamName").value.trim();
 
-function prepareAnalysis() {
-  const home = document.getElementById("homeTeam").value.trim();
-  const away = document.getElementById("awayTeam").value.trim();
-  const type = document.getElementById("matchType").selectedOptions[0].text;
+  $("researchMessage").textContent = team
+    ? "Research request prepared for " + team +
+      ". Live statistics have not been connected yet."
+    : "Please enter a team name first.";
+});
 
-  document.getElementById("analysisResult").textContent = home && away
-    ? "Match: " + home + " vs " + away +
-      "\nAnalysis focus: " + type +
-      "\n\nCheck before drawing conclusions:\n• Recent results and opponent strength\n• Home and away performance\n• Goals scored and conceded\n• Injuries and suspensions from reliable sources\n• Head-to-head context where relevant\n\nThis is a checklist, not a prediction. Verified match statistics are not yet connected."
-    : "Enter both the home and away teams.";
-}
+$("compareButton").addEventListener("click", () => {
+  const first = $("teamOne").value.trim();
+  const second = $("teamTwo").value.trim();
+
+  if (!first || !second) {
+    $("compareMessage").textContent =
+      "Please enter both team names.";
+    return;
+  }
+
+  $("compareMessage").textContent =
+    "Comparison prepared: " + first + " vs " + second +
+    ". Live team statistics are not connected yet.";
+});
+
+loadCompetitions();
 </script>
+
 </body>
-</html>
+      </html>
