@@ -1,39 +1,41 @@
 const express = require("express");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-res.json({
-app: "VORTEX FC AI",
-status: "Backend is running",
-message: "Football Intelligence & AI Analysis"
-});
-});
+// Show the website from index.html
+app.use(express.static(__dirname));
 
 app.get("/api/competitions", async (req, res) => {
-const token = process.env.FOOTBALL_DATA_API_KEY;
+  const token = process.env.FOOTBALL_DATA_API_KEY;
 
-if (!token) {
-return res.status(500).json({
-error: "API key is not configured on the server yet."
-});
-}
+  if (!token) {
+    return res.status(500).json({
+      error: "Football API key is missing on the server."
+    });
+  }
 
-try {
-const response = await fetch(
-"https://api.football-data.org/v4/competitions",
-{ headers: { "X-Auth-Token": token } }
-);
+  try {
+    const response = await fetch(
+      "https://api.football-data.org/v4/competitions",
+      {
+        headers: {
+          "X-Auth-Token": token
+        }
+      }
+    );
 
-const data = await response.json();
-res.status(response.status).json(data);
+    const data = await response.json();
+    res.status(response.status).json(data);
 
-} catch (error) {
-res.status(502).json({ error: "Could not reach football-data.org." });
-}
+  } catch (error) {
+    res.status(502).json({
+      error: "Could not connect to football-data.org."
+    });
+  }
 });
 
 app.listen(PORT, () => {
-console.log("VORTEX FC AI running on port ${PORT}");
+  console.log("VORTEX FC AI is running on port " + PORT);
 });
