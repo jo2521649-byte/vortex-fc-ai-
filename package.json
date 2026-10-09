@@ -1,0 +1,12 @@
+{
+  "name": "vortex-fc-ai",
+  "version": "1.0.0",
+  "description": "VORTEX FC AI football analysis backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
