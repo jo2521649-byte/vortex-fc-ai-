@@ -3,113 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VORTEX FC AI</title>
+<meta name="theme-color" content="#09090d">
+<title>VORTEX FC AI | Football Intelligence</title>
 <style>
+:root{--bg:#09090d;--panel:#15151c;--red:#ff303b;--text:#f5f5f7;--muted:#a5a5b2;--line:#30303b}
 *{box-sizing:border-box}
-body{margin:0;background:#09090d;color:#f5f5f5;font-family:Arial,sans-serif}
-header{padding:22px 18px;background:#111116;border-bottom:2px solid #ff3030}
-.logo{font-size:25px;font-weight:900;letter-spacing:1px}
-.logo span{color:#ff3030}
-header p{color:#aaa;font-size:13px}
-main{padding:18px;max-width:700px;margin:auto}
-h2{font-size:22px}
-.card{background:#141419;border:1px solid #303038;border-radius:12px;padding:17px;margin:15px 0}
-.card h3{margin-top:0;color:#ff4545}
-input,select,button{width:100%;padding:13px;margin:7px 0;border-radius:8px;font-size:15px}
-input,select{background:#09090d;color:white;border:1px solid #444}
-button{background:#ff3030;color:white;border:0;font-weight:bold}
-button:active{opacity:.8}
-.result{white-space:pre-wrap;color:#ddd;font-size:14px;overflow-wrap:anywhere}
-small{color:#999}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+header{padding:23px 18px;background:#111116;border-bottom:2px solid var(--red)}
+.logo{font-size:27px;font-weight:900;letter-spacing:1px}
+.logo span{color:var(--red)}
+.tag{color:var(--muted);font-size:12px;letter-spacing:1px;margin-top:8px}
+nav{display:flex;gap:9px;padding:12px 15px;overflow-x:auto;background:#101015;border-bottom:1px solid var(--line)}
+nav a{color:white;text-decoration:none;background:#202027;padding:10px 13px;border-radius:8px;white-space:nowrap;font-size:13px}
+main{max-width:760px;margin:auto;padding:17px}
+.hero{padding:10px 0 16px}
+.hero h1{font-size:27px;margin:12px 0}
+.hero p,.muted{color:var(--muted);line-height:1.5}
+.eyebrow{color:var(--red);font-weight:bold;font-size:12px;letter-spacing:2px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px;margin:15px 0}
+.card h2{font-size:19px;margin:0 0 14px}
+.card h2 span{color:var(--red)}
+input,select,textarea{display:block;width:100%;padding:13px;margin:9px 0;background:#09090e;color:white;border:1px solid #41414c;border-radius:9px;font-size:15px}
+button{width:100%;padding:14px;margin:7px 0;background:var(--red);color:white;border:0;border-radius:9px;font-size:15px;font-weight:bold;cursor:pointer}
+button.secondary{background:#292932;border:1px solid #454550}
+button:disabled{opacity:.55}
+.result{background:#0c0c11;border-radius:8px;padding:12px;margin-top:10px;color:#ddd;font-size:14px;line-height:1.55;overflow-wrap:anywhere;white-space:pre-wrap}
+.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
+.dot{width:9px;height:9px;background:#777;border-radius:50%;display:inline-block}
+.dot.ok{background:#35d07f}
+.dot.bad{background:var(--red)}
+.competition{padding:11px 0;border-bottom:1px solid var(--line)}
+.competition:last-child{border:0}
+.competition strong{display:block}
+.competition small{color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#202027;padding:12px;border-radius:9px}
+.stat b{font-size:19px;color:var(--red);display:block;margin-bottom:5px}
+footer{text-align:center;color:#777;font-size:12px;padding:25px 15px}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.logo{font-size:24px}}
 </style>
 </head>
 <body>
 <header>
   <div class="logo">VORTEX <span>FC AI</span></div>
-  <p>FOOTBALL INTELLIGENCE & AI ANALYSIS</p>
+  <div class="tag">FOOTBALL INTELLIGENCE & AI ANALYSIS</div>
 </header>
+
+<nav>
+  <a href="#connection">Connection</a>
+  <a href="#competitions">Competitions</a>
+  <a href="#research">Team Research</a>
+  <a href="#compare">Compare</a>
+  <a href="#analysis">Match Analyst</a>
+</nav>
+
 <main>
-  <h2>Football Command Centre</h2>
-  <p style="color:#aaa">Research matches. Compare teams. Study competitions.</p>
-
-  <section class="card">
-    <h3>⚡ API Connection</h3>
-    <button onclick="testAPI()">Test Football Data Connection</button>
-    <div id="apiStatus" class="result">Connection not tested yet.</div>
+  <section class="hero">
+    <div class="eyebrow">YOUR FOOTBALL COMMAND CENTRE</div>
+    <h1>Understand the game.<br><span style="color:var(--red)">Study the numbers.</span></h1>
+    <p>Explore available competitions and build your match analysis using football data.</p>
+    <div class="grid">
+      <div class="stat"><b>01</b>Competition data</div>
+      <div class="stat"><b>02</b>Team research</div>
+      <div class="stat"><b>03</b>Match comparison</div>
+      <div class="stat"><b>04</b>Evidence-led analysis</div>
+    </div>
   </section>
 
-  <section class="card">
-    <h3>🏆 Competitions</h3>
-    <button onclick="loadCompetitions()">Load Available Competitions</button>
-    <div id="competitions" class="result">Competition list will appear here.</div>
+  <section class="card" id="connection">
+    <h2>⚡ <span>System Connection</span></h2>
+    <div class="status"><i class="dot" id="dot"></i><span id="status">Not tested yet</span></div>
+    <button onclick="testConnection()">Test Football Data Connection</button>
+    <div class="result" id="connectionResult">Tap the button to check your backend.</div>
   </section>
 
-  <section class="card">
-    <h3>🔎 Team Research</h3>
-    <input id="team" placeholder="Enter team name">
-    <button onclick="research()">Research Team</button>
-    <div id="teamResult" class="result">Team research will be added next.</div>
+  <section class="card" id="competitions">
+    <h2>🏆 <span>Available Competitions</span></h2>
+    <p class="muted">Load the competitions your football-data.org API plan makes available.</p>
+    <input id="competitionSearch" placeholder="Search competitions..." oninput="filterCompetitions()">
+    <button onclick="loadCompetitions()">Load Competitions</button>
+    <div class="result" id="competitionResult">Competition list has not been loaded.</div>
   </section>
 
-  <section class="card">
-    <h3>⚔️ Compare Teams</h3>
-    <input id="teamA" placeholder="First team">
-    <input id="teamB" placeholder="Second team">
-    <button onclick="compare()">Compare Teams</button>
-    <div id="compareResult" class="result">Team comparison will be added next.</div>
+  <section class="card" id="research">
+    <h2>🔎 <span>Team Research</span></h2>
+    <p class="muted">Enter a team name to prepare a research request. Detailed team statistics will be added when the relevant data endpoint is connected.</p>
+    <input id="teamName" placeholder="e.g. Arsenal">
+    <button onclick="researchTeam()">Research Team</button>
+    <div class="result" id="teamResult">Your research will appear here.</div>
   </section>
 
-  <section class="card">
-    <h3>📊 Match Analyst</h3>
-    <p style="color:#aaa">Use team form, goals, injuries and other verified stats before assessing a match. No prediction is guaranteed.</p>
-    <small>More analysis features will be connected in the next steps.</small>
+  <section class="card" id="compare">
+    <h2>⚔️ <span>Compare Teams</span></h2>
+    <input id="teamOne" placeholder="First team">
+    <input id="teamTwo" placeholder="Second team">
+    <button onclick="compareTeams()">Prepare Comparison</button>
+    <div class="result" id="compareResult">Enter two teams to prepare a comparison.</div>
+  </section>
+
+  <section class="card" id="analysis">
+    <h2>📊 <span>Match Analyst</span></h2>
+    <input id="homeTeam" placeholder="Home team">
+    <input id="awayTeam" placeholder="Away team">
+    <select id="matchType">
+      <option value="general">General match review</option>
+      <option value="form">Recent form</option>
+      <option value="goals">Goal trends</option>
+      <option value="h2h">Head-to-head</option>
+    </select>
+    <button onclick="prepareAnalysis()">Prepare Match Analysis</button>
+    <div class="result" id="analysisResult">Enter the teams to prepare your analysis checklist.</div>
+    <p class="muted">This version prepares research prompts; it does not yet calculate predictions from team statistics. No outcome is guaranteed.</p>
   </section>
 </main>
+
+<footer>
+  VORTEX FC AI · Football Intelligence & AI Analysis<br>
+  Data availability depends on your provider and API plan.
+</footer>
+
 <script>
-const API = "https://vortex-fc-ai-k4bt.onrender.com";
+let competitionData = [];
 
-async function testAPI(){
-  const box=document.getElementById("apiStatus");
-  box.textContent="Connecting...";
-  try{
-    const r=await fetch(API);
-    const d=await r.json();
-    box.textContent=d.app ? d.app+" — "+d.status : JSON.stringify(d);
-  }catch(e){
-    box.textContent="Could not connect. The server may be waking up. Try again shortly.";
+async function apiRequest(path) {
+  const response = await fetch(path);
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || data.error || "Request failed: " + response.status);
+  }
+  return data;
+}
+
+async function testConnection() {
+  const button = document.querySelector("#connection button");
+  const box = document.getElementById("connectionResult");
+  const status = document.getElementById("status");
+  const dot = document.getElementById("dot");
+
+  button.disabled = true;
+  status.textContent = "Testing connection...";
+  dot.className = "dot";
+  box.textContent = "Contacting your VORTEX FC AI server...";
+
+  try {
+    const data = await apiRequest("/api/competitions");
+    const list = data.competitions || [];
+    status.textContent = "Backend connected";
+    dot.className = "dot ok";
+    box.textContent = "Connection successful!\nCompetitions returned: " + list.length +
+      "\nYour server and football-data API are responding.";
+  } catch (error) {
+    status.textContent = "Connection failed";
+    dot.className = "dot bad";
+    box.textContent = "Could not load competitions.\n" + error.message +
+      "\nRefresh the page and try again. If it persists, check the Render service logs.";
+  } finally {
+    button.disabled = false;
   }
 }
 
-async function loadCompetitions(){
-  const box=document.getElementById("competitions");
-  box.textContent="Loading competitions...";
-  try{
-    const r=await fetch(API+"/api/competitions");
-    const d=await r.json();
-    if(!r.ok) throw new Error(d.message||d.error||"API request failed");
-    const list=d.competitions||[];
-    box.textContent=list.length
-      ? list.map(c=>c.name+" ("+(c.area?.name||"Unknown area")+")").join("\n")
-      : "No competitions returned. Check your API access.";
-  }catch(e){
-    box.textContent="Error: "+e.message;
+async function loadCompetitions() {
+  const box = document.getElementById("competitionResult");
+  box.textContent = "Loading competitions...";
+
+  try {
+    const data = await apiRequest("/api/competitions");
+    competitionData = data.competitions || [];
+    filterCompetitions();
+  } catch (error) {
+    box.textContent = "Could not load competitions: " + error.message;
   }
 }
 
-function research(){
-  const name=document.getElementById("team").value.trim();
-  document.getElementById("teamResult").textContent=name
-    ? "Team research for "+name+" is not connected yet. Next we will add real team data."
-    : "Enter a team name first.";
+function filterCompetitions() {
+  const box = document.getElementById("competitionResult");
+  const query = document.getElementById("competitionSearch").value.trim().toLowerCase();
+  const matches = competitionData.filter(c =>
+    (c.name || "").toLowerCase().includes(query) ||
+    (c.area?.name || "").toLowerCase().includes(query)
+  );
+
+  if (!competitionData.length) {
+    box.textContent = "Tap Load Competitions first.";
+    return;
+  }
+
+  if (!matches.length) {
+    box.textContent = "No matching competitions found.";
+    return;
+  }
+
+  box.innerHTML = "";
+  matches.forEach(c => {
+    const item = document.createElement("div");
+    item.className = "competition";
+    const name = document.createElement("strong");
+    name.textContent = c.name || "Unnamed competition";
+    const info = document.createElement("small");
+    info.textContent = (c.area?.name || "Area unavailable") +
+      (c.code ? " · " + c.code : "");
+    item.appendChild(name);
+    item.appendChild(info);
+    box.appendChild(item);
+  });
 }
 
-function compare(){
-  const a=document.getElementById("teamA").value.trim();
-  const b=document.getElementById("teamB").value.trim();
-  document.getElementById("compareResult").textContent=a&&b
-    ? "Comparison of "+a+" vs "+b+" will be connected to real statistics next."
+function researchTeam() {
+  const name = document.getElementById("teamName").value.trim();
+  document.getElementById("teamResult").textContent = name
+    ? "Research request prepared for: " + name +
+      "\nNext data needed: team ID, recent results, goals scored/conceded and competition.\nLive team research is not connected yet."
+    : "Please enter a team name.";
+}
+
+function compareTeams() {
+  const one = document.getElementById("teamOne").value.trim();
+  const two = document.getElementById("teamTwo").value.trim();
+  document.getElementById("compareResult").textContent = one && two
+    ? "Comparison prepared: " + one + " vs " + two +
+      "\nTo compare accurately, we need real statistics for both teams.\nThe live team-comparison endpoint is not connected yet."
     : "Enter both team names first.";
+}
+
+function prepareAnalysis() {
+  const home = document.getElementById("homeTeam").value.trim();
+  const away = document.getElementById("awayTeam").value.trim();
+  const type = document.getElementById("matchType").selectedOptions[0].text;
+
+  document.getElementById("analysisResult").textContent = home && away
+    ? "Match: " + home + " vs " + away +
+      "\nAnalysis focus: " + type +
+      "\n\nCheck before drawing conclusions:\n• Recent results and opponent strength\n• Home and away performance\n• Goals scored and conceded\n• Injuries and suspensions from reliable sources\n• Head-to-head context where relevant\n\nThis is a checklist, not a prediction. Verified match statistics are not yet connected."
+    : "Enter both the home and away teams.";
 }
 </script>
 </body>
-  </html>
+</html>
