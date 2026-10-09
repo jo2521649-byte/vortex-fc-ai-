@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VORTEX FC AI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#09090d;color:#f5f5f5;font-family:Arial,sans-serif}
+header{padding:22px 18px;background:#111116;border-bottom:2px solid #ff3030}
+.logo{font-size:25px;font-weight:900;letter-spacing:1px}
+.logo span{color:#ff3030}
+header p{color:#aaa;font-size:13px}
+main{padding:18px;max-width:700px;margin:auto}
+h2{font-size:22px}
+.card{background:#141419;border:1px solid #303038;border-radius:12px;padding:17px;margin:15px 0}
+.card h3{margin-top:0;color:#ff4545}
+input,select,button{width:100%;padding:13px;margin:7px 0;border-radius:8px;font-size:15px}
+input,select{background:#09090d;color:white;border:1px solid #444}
+button{background:#ff3030;color:white;border:0;font-weight:bold}
+button:active{opacity:.8}
+.result{white-space:pre-wrap;color:#ddd;font-size:14px;overflow-wrap:anywhere}
+small{color:#999}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">VORTEX <span>FC AI</span></div>
+  <p>FOOTBALL INTELLIGENCE & AI ANALYSIS</p>
+</header>
+<main>
+  <h2>Football Command Centre</h2>
+  <p style="color:#aaa">Research matches. Compare teams. Study competitions.</p>
+
+  <section class="card">
+    <h3>⚡ API Connection</h3>
+    <button onclick="testAPI()">Test Football Data Connection</button>
+    <div id="apiStatus" class="result">Connection not tested yet.</div>
+  </section>
+
+  <section class="card">
+    <h3>🏆 Competitions</h3>
+    <button onclick="loadCompetitions()">Load Available Competitions</button>
+    <div id="competitions" class="result">Competition list will appear here.</div>
+  </section>
+
+  <section class="card">
+    <h3>🔎 Team Research</h3>
+    <input id="team" placeholder="Enter team name">
+    <button onclick="research()">Research Team</button>
+    <div id="teamResult" class="result">Team research will be added next.</div>
+  </section>
+
+  <section class="card">
+    <h3>⚔️ Compare Teams</h3>
+    <input id="teamA" placeholder="First team">
+    <input id="teamB" placeholder="Second team">
+    <button onclick="compare()">Compare Teams</button>
+    <div id="compareResult" class="result">Team comparison will be added next.</div>
+  </section>
+
+  <section class="card">
+    <h3>📊 Match Analyst</h3>
+    <p style="color:#aaa">Use team form, goals, injuries and other verified stats before assessing a match. No prediction is guaranteed.</p>
+    <small>More analysis features will be connected in the next steps.</small>
+  </section>
+</main>
+<script>
+const API = "https://vortex-fc-ai-k4bt.onrender.com";
+
+async function testAPI(){
+  const box=document.getElementById("apiStatus");
+  box.textContent="Connecting...";
+  try{
+    const r=await fetch(API);
+    const d=await r.json();
+    box.textContent=d.app ? d.app+" — "+d.status : JSON.stringify(d);
+  }catch(e){
+    box.textContent="Could not connect. The server may be waking up. Try again shortly.";
+  }
+}
+
+async function loadCompetitions(){
+  const box=document.getElementById("competitions");
+  box.textContent="Loading competitions...";
+  try{
+    const r=await fetch(API+"/api/competitions");
+    const d=await r.json();
+    if(!r.ok) throw new Error(d.message||d.error||"API request failed");
+    const list=d.competitions||[];
+    box.textContent=list.length
+      ? list.map(c=>c.name+" ("+(c.area?.name||"Unknown area")+")").join("\n")
+      : "No competitions returned. Check your API access.";
+  }catch(e){
+    box.textContent="Error: "+e.message;
+  }
+}
+
+function research(){
+  const name=document.getElementById("team").value.trim();
+  document.getElementById("teamResult").textContent=name
+    ? "Team research for "+name+" is not connected yet. Next we will add real team data."
+    : "Enter a team name first.";
+}
+
+function compare(){
+  const a=document.getElementById("teamA").value.trim();
+  const b=document.getElementById("teamB").value.trim();
+  document.getElementById("compareResult").textContent=a&&b
+    ? "Comparison of "+a+" vs "+b+" will be connected to real statistics next."
+    : "Enter both team names first.";
+}
+</script>
+</body>
+  </html>
